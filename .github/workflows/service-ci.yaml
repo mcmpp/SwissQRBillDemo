@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install locales
-        run: sudo apt-get -y install docker-buildx
       - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
@@ -25,6 +23,6 @@ jobs:
       - name: Docker Login
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build and Publish Docker Image
-        run: cd service ; buildx build --file=src/main/docker/Dockerfile.native-micro --tag=qrbill/qrbill-service --output=type=docker .
+        run: cd service ; mvn dockerfile:push
         env:
           DOCKER_UPDATE_LATEST: true
