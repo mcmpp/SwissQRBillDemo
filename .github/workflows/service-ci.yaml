@@ -23,6 +23,6 @@ jobs:
       - name: Docker Login
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build and Publish Docker Image
-        run: cd service ; mvn dockerfile:push
+        run: cd service ; mvn clean deploy -Ddocker.user=${{ secrets.DOCKERHUB_USERNAME }} -Ddocker.password=${{ secrets.DOCKERHUB_PASSWORD }} -Ddocker.url=hub.docker.com 
         env:
           DOCKER_UPDATE_LATEST: true
