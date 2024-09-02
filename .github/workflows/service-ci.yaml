@@ -20,3 +20,9 @@ jobs:
       - name: Build with Maven
         run: mvn $MAVEN_ARGS --batch-mode --update-snapshots verify
         working-directory: ./service
+      - name: Docker Login
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Build and Publish Docker Image
+        run: mvn dockerfile:push
+        env:
+          DOCKER_UPDATE_LATEST: true
